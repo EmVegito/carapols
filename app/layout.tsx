@@ -12,10 +12,12 @@ const fontSans = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Carapols',
+  title: 'CarePulse',
   description:
     'A healthcare patient management System designed to streamline patient registration, appointment scheduling, and medical records management for healthcare providers.',
-  icons: '/assets/icons/logo-icon.svg',
+  icons: {
+    icon: '/assets/icons/logo-icon.svg',
+  },
 }
 
 export default function RootLayout({

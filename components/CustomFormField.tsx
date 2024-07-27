@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
-
-import { E164Number } from 'libphonenumber-js'
+import { E164Number } from 'libphonenumber-js/core'
 import Image from 'next/image'
 import ReactDatePicker from 'react-datepicker'
 import { Control } from 'react-hook-form'
-import PhoneInput from 'react-phone-number-input/input'
+import PhoneInput from 'react-phone-number-input'
 
 import { Checkbox } from './ui/checkbox'
 import {
@@ -21,9 +20,9 @@ import { Textarea } from './ui/textarea'
 export enum FormFieldType {
   INPUT = 'input',
   TEXTAREA = 'textarea',
-  PHONEINPUT = 'phoneinput',
-  DATEPICKER = 'datepicker',
+  PHONE_INPUT = 'phoneInput',
   CHECKBOX = 'checkbox',
+  DATE_PICKER = 'datePicker',
   SELECT = 'select',
   SKELETON = 'skeleton',
 }
@@ -77,16 +76,16 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           />
         </FormControl>
       )
-    case FormFieldType.PHONEINPUT:
+    case FormFieldType.PHONE_INPUT:
       return (
         <FormControl>
           <PhoneInput
-            onChange={field.onChange}
             defaultCountry="US"
             placeholder={props.placeholder}
             international
             withCountryCallingCode
             value={field.value as E164Number | undefined}
+            onChange={field.onChange}
             className="input-phone"
           />
         </FormControl>
@@ -106,11 +105,11 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           </div>
         </FormControl>
       )
-    case FormFieldType.DATEPICKER:
+    case FormFieldType.DATE_PICKER:
       return (
         <div className="flex rounded-md border border-dark-500 bg-dark-400">
           <Image
-            src="/assets/icons/calender.svg"
+            src="/assets/icons/calendar.svg"
             height={24}
             width={24}
             alt="user"

@@ -4,17 +4,19 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { Form } from '../ui/form'
+import { createUser } from '@/lib/actions/patient.actions'
+import { UserFormValidation } from '@/lib/validation'
 
 import 'react-phone-number-input/style.css'
 import CustomeFormField, { FormFieldType } from '../CustomFormField'
 import SubmitButton from '../SubmitButton'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { UserFormValidation } from '@/lib/validation'
 import CustomFormField from '../CustomFormField'
 
 export const PatientForm = () => {
   const router = useRouter()
+
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof UserFormValidation>>({
@@ -26,7 +28,27 @@ export const PatientForm = () => {
     },
   })
 
-  const onSubmit = () => {}
+  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
+    setIsLoading(true)
+
+    try {
+      const user = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      }
+
+      const newUser = await createUser(user)
+
+      if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+    setIsLoading(false)
+  }
 
   return (
     <Form {...form}>
@@ -55,14 +77,14 @@ export const PatientForm = () => {
           iconAlt="email"
         />
         <CustomFormField
-          fieldType={FormFieldType.PHONEINPUT}
+          fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="phone"
           label="Phone Number"
           placeholder="+00 0342 0453 34"
-          iconSrc="/assets/icons/call.svg"
-          iconAlt="call"
         />
+
+        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
   )

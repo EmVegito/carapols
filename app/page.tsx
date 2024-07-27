@@ -5,7 +5,7 @@ import PatientForm from '@/components/form/PatientForm'
 
 const Home = () => {
   return (
-    <div>
+    <div className="flex h-screen h-max-screen">
       <section className="remove-scrollbar container my-auto">
         <div>
           <Image
